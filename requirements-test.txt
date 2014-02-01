@@ -1,0 +1,11 @@
+configobj
+validate
+natsort
+xlwt
+maidenhair
+app_version
+tox
+nose
+coverage
+coveralls
+mock
