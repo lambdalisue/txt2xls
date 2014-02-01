@@ -29,7 +29,7 @@ txt2xls
     :alt: License
 
 txt2xls convert raw text data files into a single excel file.
-It use [maidenhair](https://github.com/lambdalisue/maidenhair) for reading raw
+It use `maidenhair <https://github.com/lambdalisue/maidenhair>`_ for reading raw
 text files so any kind of raw text file can be used if there is a maidenhair
 plugins.
 
@@ -43,9 +43,7 @@ Use pip_ like::
 
 Quick Usage
 -------------
-Assume there are several raw text data files like
-
-.. code::
+Assume there are several raw text data files like::
 
     # Sample1.txt
     0 10
@@ -73,13 +71,13 @@ Then run *txt2xls* with
 
     % txt2xls -o output Sample*.txt
 
-It will produce `output.xls` file.
-The excel file have `Sample1`, `Sample2`, and `Sample3` sheets.
+It will produce ``output.xls`` file.
+The excel file have ``Sample1``, ``Sample2``, and ``Sample3`` sheets.
 
 Usage
 ------
 
-.. code::
+::
 
     usage: txt2xls [-h] [-v] [-o OUTPUT] [--raise-exceptions] [-p PARSER]
                 [-l LOADER] [-a] [--unite-basecolumn UNITE_BASECOLUMN]
@@ -142,3 +140,5 @@ Usage
                             A python code of a "lambda" function which is used to
                             determine the baseline value from the data. `columns`
                             and `column` variables are available in the code.
+
+
