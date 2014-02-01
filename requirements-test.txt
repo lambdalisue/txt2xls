@@ -1,5 +1,5 @@
+numpy
 configobj
-validate
 natsort
 xlwt
 maidenhair

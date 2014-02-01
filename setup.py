@@ -24,7 +24,7 @@ if sys.version_info >= (3,):
 setup(
     name = NAME,
     version = VERSION,
-    description = 'Convert raw text 2D data files into a single excel file.',
+    description = 'Convert raw text data files into a single excel file.',
     long_description = read('README.rst'),
     classifiers = (
         'Development Status :: 3 - Alpha',
@@ -38,7 +38,7 @@ setup(
         'Programming Language :: Python :: 3.2',
         'Programming Language :: Python :: 3.3',
     ),
-    keywords = 'raw text 2D data convert excel',
+    keywords = 'raw text data convert excel xls',
     author = 'Alisue',
     author_email = 'lambdalisue@hashnote.net',
     url = 'https://github.com/lambdalisue/%s' % NAME,

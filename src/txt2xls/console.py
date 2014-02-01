@@ -3,10 +3,10 @@
 """
 """
 __author__ = 'Alisue <lambdalisue@hashnote.net>'
-from txt2xls.conf.args import parse_args
-from txt2xls.conf.conf import parse_conf
 
 def txt2xls(args=None):
+    from txt2xls.conf.args import parse_args
+    from txt2xls.conf.conf import parse_conf
     from txt2xls.readers.txt import read
     from txt2xls.writers.xls import write
 
