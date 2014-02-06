@@ -1,15 +1,11 @@
 language: python
-python:
- - 2.6
- - 2.7
 
 install:
-  - pip install -qr requirements-test.txt
+  - pip install -q tox
   - pip install -q coverage coveralls
-  - pip install .
 
 script:
-  - nosetests
+  - tox
 
 after_success:
   - coverage report
