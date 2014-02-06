@@ -64,15 +64,19 @@ def write_sheet(sheet, axes, offset=0):
     for a, axis in enumerate(axes):
         # ensure iterable
         axis = ensure_iterable(axis)
+        # get maximum number of columns
+        ncol = 0
+        for columns in axis:
+            if len(columns) > ncol:
+                ncol = len(columns)
         # write header into sheet
-        ncol = len(axis[0])
         header = ["%s %d" % (prefer_alphabet(a), i+1) for i in range(ncol)]
         if ncol > 1:
             header += ['Avg']
             ncol += 1
-        if ncol > 2:
-            header += ['Std']
-            ncol += 1
+            if ncol > 2:
+                header += ['Std']
+                ncol += 1
         for c, cell in enumerate(header):
             sheet.write(0, c+offset, cell)
 
@@ -85,13 +89,16 @@ def write_sheet(sheet, axes, offset=0):
                     r+1, offset,
                     r+1, offset+len(columns)-1)
             # add average if there are more than 1 column
-            if ncol > 1:
-                sheet.write(r+1, offset+len(columns),
-                            Formula('average(%s)' % cr))
-            # add stdev if there are more than 2 columns
-            if ncol > 2:
-                sheet.write(r+1, offset+len(columns)+1,
-                            Formula('stdev(%s)' % cr))
+            if len(columns) > 1:
+                # add stdev if there are more than 2 columns
+                if len(columns) > 2:
+                    sheet.write(r+1, offset+ncol-2,
+                                Formula('average(%s)' % cr))
+                    sheet.write(r+1, offset+ncol-1,
+                                Formula('stdev(%s)' % cr))
+                else:
+                    sheet.write(r+1, offset+ncol-1,
+                                Formula('average(%s)' % cr))
         offset += ncol + 1
 
 def write_dataset(book, dataset):
