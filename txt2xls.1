@@ -71,62 +71,62 @@ there are plugins suite for the format.
 .SH OPTIONS
 .INDENT 0.0
 .TP
-.B \-h\fP,\fB  \-\-help
+.B \fB\-h, \-\-help\fP
 show this help message and exit
 .TP
-.B \-v\fP,\fB  \-\-version
+.B \fB\-v, \-\-version\fP
 show program\(aqs version number and exit
 .TP
-.B \-\-raise\-exception
+.B \fB\-\-raise\-exception\fP
 If it is specified, raise exceptions.
 .TP
-.BI \-o \ OUTFILE\fP,\fB \ \-\-outfile \ OUTFILE
+.B \fB\-o OUTFILE, \-\-outfile OUTFILE\fP
 An output filename without extensions. The required
 filename extension will be automatically determined
 from an output format.
 .UNINDENT
-.SS Reading options:
+.SS Reading options
 .INDENT 0.0
 .TP
-.BI \-p \ PARSER\fP,\fB \ \-\-parser \ PARSER
+.B \fB\-p PARSER, \-\-parser PARSER\fP
 A maidenhair parser name which will be used to parse
 the raw text data.
 .TP
-.BI \-l \ LOADER\fP,\fB \ \-\-loader \ LOADER
+.B \fB\-l LOADER, \-\-loader LOADER\fP
 A maidenhair loader name which will be used to load
 the raw text data.
 .TP
-.BI \-u \ USING\fP,\fB \ \-\-using \ USING
+.B \fB\-u USING, \-\-using USING\fP
 A colon (:) separated column indexes. It is used for
 limiting the reading columns.
 .UNINDENT
-.SS Unite options:
+.SS Unite options
 .INDENT 0.0
 .TP
-.B \-\-unite
+.B \fB\-\-unite\fP
 Join the columns of classified dataset with respecting
 \fI\-\-unite\-basecolumn\fP\&. The dataset is classified with
 \fI\-\-unite\-function\fP\&.
 .TP
-.BI \-\-unite\-basecolumn \ UNITE_BASECOLUMN
+.B \fB\-\-unite\-basecolumn UNITE_BASECOLUMN\fP
 An index of columns which will be used as a base
 column for regulating data point region.
 .TP
-.BI \-\-unite\-function \ UNITE_FUNCTION
+.B \fB\-\-unite\-function UNITE_FUNCTION\fP
 A python script file path or a content of python
 lambda expression which will be used for classifing
 dataset. If it is not spcified, a filename character
 before period (.) will be used to classify.
 See \fBFunction expression\fP section below.
 .UNINDENT
-.SS Classify options:
+.SS Classify options
 .INDENT 0.0
 .TP
-.B \-\-classify
+.B \fB\-\-classify\fP
 Classify dataset with \-\-classify\-function. It will
 influence the results of \-\-relative and \-\-baseline.
 .TP
-.BI \-\-classify\-function \ CLASSIFY_FUNCTION
+.B \fB\-\-classify\-function CLASSIFY_FUNCTION\fP
 A python script file path or a content of python
 lambda expression which will be used for classifing
 dataset. If it is not specified, a filename character
@@ -134,56 +134,54 @@ before the last underscore (_) will be used to
 classify.
 See \fBFunction expression\fP section below.
 .UNINDENT
-.SS Relative options:
+.SS Relative options
 .INDENT 0.0
 .TP
-.B \-\-relative
+.B \fB\-\-relative\fP
 If it is True, the raw data will be converted to
 relative data from the specified origin, based on the
 specified column. See \fI\-\-relative\-origin\fP and
 \fI\-\-relative\-basecolumn\fP also.
 .TP
-.BI \-\-relative\-origin \ RELATIVE_ORIGIN
+.B \fB\-\-relative\-origin RELATIVE_ORIGIN\fP
 A dataset number which will be used as an orign of the
 relative data. It is used with \fI\-\-relative\fP option.
 .TP
-.BI \-\-relative\-basecolumn \ RELATIVE_BASECOLUMN
+.B \fB\-\-relative\-basecolumn RELATIVE_BASECOLUMN\fP
 A column number which will be used as a base column to
 make the data relative. It is used with \fI\-\-relative\fP
 option.
 .UNINDENT
-.SS Baseline options:
+.SS Baseline options
 .INDENT 0.0
 .TP
-.B \-\-baseline
+.B \fB\-\-baseline\fP
 If it is specified, the specified data file is used as
 a baseline of the dataset. See \fI\-\-baseline\-basecolumn\fP
 and \fI\-\-baseline\-function\fP also.
 .TP
-.BI \-\-baseline\-basecolumn \ BASELINE_BASECOLUMN
+.B \fB\-\-baseline\-basecolumn BASELINE_BASECOLUMN\fP
 A column index which will be proceeded for baseline
 regulation. It is used with \fI\-\-baseline\fP option.
 .TP
-.BI \-\-baseline\-function \ BASELINE_FUNCTION
+.B \fB\-\-baseline\-function BASELINE_FUNCTION\fP
 A python script file path or a content of python
 lambda expression which will be used to determine the
 baseline value from the data. \fIcolumns\fP and \fIcolumn\fP
 variables are available in the lambda expression.
 See \fBFunction expression\fP section below.
 .UNINDENT
-.SS Peakset options:
+.SS Peakset options
 .INDENT 0.0
 .TP
-.B \-\-peakset\-method {argmax,argmin}
+.B \fB\-\-peakset\-method {argmin, argmax}\fP
 A method to find peak data point.
-.UNINDENT
-.INDENT 0.0
 .TP
-.BI \-\-peakset\-basecolumn \ PEAKSET_BASECOLUMN
+.B \fB\-\-peakset\-basecolumn PEAKSET_BASECOLUMN\fP
 A column index which will be used for finding peak
 data point.
 .TP
-.BI \-\-peakset\-where\-function \ PEAKSET_WHERE_FUNCTION
+.B \fB\-\-peakset\-where\-function PEAKSET_WHERE_FUNCTION\fP
 A python script file path or a content of python
 lambda expression which will be used to limit the
 range of data points for finding. peak data point.
