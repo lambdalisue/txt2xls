@@ -8,6 +8,24 @@ import imp
 
 
 def parse_function(function, default_type='lambda'):
+    """
+    Parse function expression which start from function type (e.g. 'lambda:')
+
+    The function expression has to be start from 'lambda:', 'file:', 'regex:',
+    or 'builtin:' (shortcut alias of 'file:' type for builtin functions).
+    If no function type is specified, the function will be treated as
+    :attr:`default_type`.
+
+    Args:
+        function (string): A function expression
+        default_type (string): A default function expression type
+
+    Returns:
+        function: A function
+
+    Raises:
+        AttributeError: Raise when unknown function type has been specified.
+    """
     if ":" not in function:
         function = "%s:%s" % (default_type, function)
     name, body = function.split(":", 1)
@@ -28,6 +46,17 @@ def parse_function(function, default_type='lambda'):
 
 
 def create_regex_function(body):
+    """
+    Create function from regex pattern.
+    
+    It is used for creating a function for classification.
+
+    Args:
+        body (string): A regex pattern
+
+    Returns:
+        function: A function which will return string for classification
+    """
     pattern = re.compile(body)
     def fn(data):
         filename = data[0]
@@ -44,6 +73,17 @@ def create_regex_function(body):
 
 
 def create_file_function(body):
+    """
+    Create function from specified python script file.
+
+    The python script file has to have ``__call__(data)__`` function.
+
+    Args:
+        body (string): A filename of the python script
+
+    Returns:
+        function: A function
+    """
     filename = os.path.expanduser(body)
     if not os.path.exists(filename):
         raise IOError("%s is not found." % body)
@@ -58,7 +98,17 @@ def create_file_function(body):
 
 def create_lambda_function(body):
     """
-    Create lambda function
+    Create lambda function with partial code.
+
+    The partial code (:attr:`body`) will be put inside of lambda expression as
+
+        lambda *args, **kwargs: <BODY>
+
+    Args:
+        body (string): A body part of lambda expression
+
+    Returns:
+        function: A lambda function
     """
     fn = eval("lambda *args, **kwargs: %s" % body)
     return fn
