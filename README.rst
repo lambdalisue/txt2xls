@@ -79,12 +79,18 @@ Usage
 
 ::
 
-    usage: txt2xls [-h] [-v] [-o OUTPUT] [--raise-exceptions] [-p PARSER]
-                [-l LOADER] [-a] [--unite-basecolumn UNITE_BASECOLUMN]
-                [-u USING] [--relative] [--relative-origin RELATIVE_ORIGIN]
-                [--relative-basecolumn RELATIVE_BASECOLUMN]
-                [--baseline BASELINE] [--baseline-column BASELINE_COLUMN]
+    usage: txt2xls [-h] [-v] [-p PARSER] [-l LOADER] [-u USING] [--unite]
+                [--unite-basecolumn UNITE_BASECOLUMN]
+                [--unite-function UNITE_FUNCTION] [--classify]
+                [--classify-function CLASSIFY_FUNCTION] [--relative]
+                [--relative-origin RELATIVE_ORIGIN]
+                [--relative-basecolumn RELATIVE_BASECOLUMN] [--baseline]
+                [--baseline-basecolumn BASELINE_BASECOLUMN]
                 [--baseline-function BASELINE_FUNCTION]
+                [--peakset-method {argmax,argmin}]
+                [--peakset-basecolumn PEAKSET_BASECOLUMN]
+                [--peakset-where-function PEAKSET_WHERE_FUNCTION]
+                [--raise-exception] [-o OUTFILE]
                 infiles [infiles ...]
 
     positional arguments:
@@ -94,31 +100,47 @@ Usage
     optional arguments:
     -h, --help            show this help message and exit
     -v, --version         show program's version number and exit
-    -o OUTPUT, --output OUTPUT
+    --raise-exception     If it is specified, raise exceptions.
+    -o OUTFILE, --outfile OUTFILE
                             An output filename without extensions. The required
                             filename extension will be automatically determined
                             from an output format.
-    --raise-exceptions    If it is specified, raise exceptions.
+
+    Reading options:
     -p PARSER, --parser PARSER
                             A maidenhair parser name which will be used to parse
-                            the raw text data. If it is not specified, a parser
-                            which was specified in a txt2xls configure file will
-                            be used.
+                            the raw text data.
     -l LOADER, --loader LOADER
                             A maidenhair loader name which will be used to load
-                            the raw text data. If it is not specified, a parser
-                            which was specified in a txt2xls configure file will
-                            be used.
-    -a, --auto-unite      Automatically unite thedataset which filename middle
-                            extensions have only integers. See "Filename middle
-                            extensions" also.
-    --unite-basecolumn UNITE_BASECOLUMN
-                            A column number which will be used to regulate data
-                            regions for automatical unite. See `--auto` option
-                            also.
+                            the raw text data.
     -u USING, --using USING
-                            A colon separated column number of the raw text data
-                            which will be used to determine X and Y columns.
+                            A colon (:) separated column indexes. It is used for
+                            limiting the reading columns.
+
+    Unite options:
+    --unite               Join the columns of classified dataset with respecting
+                            --unite-basecolumn.The dataset is classified with
+                            --unite-function.
+    --unite-basecolumn UNITE_BASECOLUMN
+                            An index of columns which will be used as a base
+                            column for regulating data point region.
+    --unite-function UNITE_FUNCTION
+                            A python script file path or a content of python
+                            lambda expression which will be used for classifing
+                            dataset. If it is not spcified, a filename character
+                            before period (.) will be used to classify.
+
+    Classify options:
+    --classify            Classify dataset with --classify-function. It will
+                            influence the results of --relative and --baseline.
+    --classify-function CLASSIFY_FUNCTION
+                            A python script file path or a content of python
+                            lambda expression which will be used for classifing
+                            dataset. If it is not specified, a filename character
+                            before the last underscore (_) will be used to
+                            classify.
+
+    Relative options:
     --relative            If it is True, the raw data will be converted to
                             relative data from the specified origin, based on the
                             specified column. See `--relative-origin` and
@@ -130,17 +152,31 @@ Usage
                             A column number which will be used as a base column to
                             make the data relative. It is used with `--relative`
                             option.
-    --baseline BASELINE   If it is specified, the specified data file is used as
-                            a baseline of the dataset. See `--baseline-column` and
-                            `--baseline-function` also.
-    --baseline-column BASELINE_COLUMN
-                            A column number which will be proceeded for baseline
+
+    Baseline options:
+    --baseline            If it is specified, the specified data file is used as
+                            a baseline of the dataset. See `--baseline-basecolumn`
+                            and `--baseline-function` also.
+    --baseline-basecolumn BASELINE_BASECOLUMN
+                            A column index which will be proceeded for baseline
                             regulation. It is used with `--baseline` option.
     --baseline-function BASELINE_FUNCTION
-                            A python code of a "lambda" function which is used to
-                            determine the baseline value from the data. `columns`
-                            and `column` variables are available in the code.
+                            A python script file path or a content of python
+                            lambda expression which will be used to determine the
+                            baseline value from the data. `columns` and `column`
+                            variables are available in the lambda expression.
 
+    Peakset options:
+    --peakset-method {argmax,argmin}
+                            A method to find peak data point.
+    --peakset-basecolumn PEAKSET_BASECOLUMN
+                            A column index which will be used for finding peak
+                            data point.
+    --peakset-where-function PEAKSET_WHERE_FUNCTION
+                            A python script file path or a content of python
+                            lambda expression which will be used to limit the
+                            range of data points for finding. peak data point.
+                            `data` is available in the lambda expression.
 
 Preference
 -----------
@@ -149,31 +185,40 @@ You can create configure file as ``~/.config/txt2xls/txt2xls.cfg`` (Linux),
 
 The default preference is equal to the configure file as below::
 
-    [main]
-    # --output
-    output = 'output'
-    # --raise-exception
+    [default]
     raise_exception = False
 
-    [maidenhair]
-    # --parser
+    [reader]
     parser = 'parsers.PlainParser'
-    # --loader
     loader = 'loaders.PlainLoader'
-    # --using
-    using = list(0,1)
-    # --auto-unite
-    auto_unite = False
-    # --unite-basecolumn
-    unite_basecolumn = 0
+    using = None
 
-    [filters]
-    relative = False
-    relative_origin = 0
-    relative_basecolumn = 1
-    baseline = False
-    baseline_column = 1
-    baseline_function = 'columns[column][0]'
+        [[classify]]
+        enabled = False
+        function = 'builtin:classify_function'
+
+        [[unite]]
+        enabled = False
+        function = 'builtin:unite_function'
+        basecolumn = 0
+
+        [[relative]]
+        enabled = False
+        origin = 0
+        basecolumn = 1
+
+        [[baseline]]
+        enabled = False
+        function = 'builtin:baseline_function'
+        basecolumn = 1
+
+    [writer]
+    default_filename = 'output.xls'
+
+        [[peakset]]
+        method = 'argmax'
+        basecolumn = -1
+        where_function = 'builtin:where_function'
 
 I don't use Microsoft Windows so the location of the configure file in Windows
 might be wrong.
