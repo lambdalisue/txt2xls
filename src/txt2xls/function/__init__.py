@@ -100,7 +100,7 @@ def create_lambda_function(body):
     """
     Create lambda function with partial code.
 
-    The partial code (:attr:`body`) will be put inside of lambda expression as
+    The partial code (:attr:`body`) will be put inside of lambda expression as::
 
         lambda *args, **kwargs: <BODY>
 

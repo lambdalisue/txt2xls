@@ -42,6 +42,7 @@ setup(
     license = 'MIT',
     packages = find_packages('src'),
     package_dir = {'': 'src'},
+    data_files = [('man/man1', ['txt2xls.1'])],
     include_package_data = True,
     package_data = {
         '': ['LICENSE', 'README.rst',
