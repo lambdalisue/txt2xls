@@ -142,3 +142,39 @@ Usage
                             and `column` variables are available in the code.
 
 
+Preference
+-----------
+You can create configure file as ``~/.config/txt2xls/txt2xls.cfg`` (Linux),
+``~/.txt2xls.cfg`` (Mac), or ``%APPDATA%\txt2xls\txt2xls.cfg`` (Windows).
+
+The default preference is equal to the configure file as below::
+
+    [main]
+    # --output
+    output = 'output'
+    # --raise-exception
+    raise_exception = False
+
+    [maidenhair]
+    # --parser
+    parser = 'parsers.PlainParser'
+    # --loader
+    loader = 'loaders.PlainLoader'
+    # --using
+    using = list(0,1)
+    # --auto-unite
+    auto_unite = False
+    # --unite-basecolumn
+    unite_basecolumn = 0
+
+    [filters]
+    relative = False
+    relative_origin = 0
+    relative_basecolumn = 1
+    baseline = False
+    baseline_column = 1
+    baseline_function = 'columns[column][0]'
+
+I don't use Microsoft Windows so the location of the configure file in Windows
+might be wrong.
+Let me know if there are any mistakes.
