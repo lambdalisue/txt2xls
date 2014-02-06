@@ -44,8 +44,7 @@ def create_regex_function(body):
 
 
 def create_file_function(body):
-    BUILTIN = os.path.join(os.path.dirname(__file__), 'builtin')
-    filename = body.replace("%BUILTIN%", BUILTIN)
+    filename = os.path.expanduser(body)
     if not os.path.exists(filename):
         raise IOError("%s is not found." % body)
     basename = os.path.splitext(os.path.basename(filename))[0]
