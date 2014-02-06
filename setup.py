@@ -3,7 +3,7 @@ import sys
 from setuptools import setup, find_packages
 
 NAME = 'txt2xls'
-VERSION = '0.1.1'
+VERSION = '0.2.0'
 
 def read(filename):
     import os
