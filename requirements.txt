@@ -1,5 +1,6 @@
 numpy
 configobj
+ordereddict
 natsort
 xlwt
 maidenhair>=0.2.2
