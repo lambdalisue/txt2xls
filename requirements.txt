@@ -2,5 +2,5 @@ numpy
 configobj
 natsort
 xlwt
-maidenhair
+maidenhair>=0.2.2
 app_version
