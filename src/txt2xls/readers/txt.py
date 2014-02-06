@@ -29,7 +29,7 @@ def read(pathname, conf):
     # auto unite
     if conf['maidenhair']['auto_unite']:
         dataset = auto_unite(dataset, conf['maidenhair']['unite_basecolumn'])
-        
+
     # modulate dataset
     if conf['filters']['baseline']:
         # create baseline function from specified partial python code
