@@ -32,7 +32,7 @@ def parse_args(args=None):
                         help=('An output filename without extensions. '
                               'The required filename extension will be '
                               'automatically determined from an output format.'))
-    parser.add_argument('--raise-exceptions', default=None,
+    parser.add_argument('--raise-exception', default=None,
                         action='store_true',
                         help=('If it is specified, raise exceptions.'))
     parser.add_argument('-p', '--parser', default=None,
