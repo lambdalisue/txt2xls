@@ -47,16 +47,35 @@ def parse_args(args=None):
                               'If it is not specified, a parser which was '
                               'specified in a txt2xls configure file will be '
                               'used.'))
-    parser.add_argument('-a', '--auto-unite', default=None, action='store_true',
-                        help=('Automatically unite thedataset which '
-                              'filename middle extensions have only integers. '
-                              'See "Filename middle extensions" also.'))
+    parser.add_argument('--unite', default=None, action='store_true',
+                        help=('Join columns of classified dataset with '
+                              'respecting `--unite-basecolumn`.'
+                              'Dataset is classified with `--unite-function`.'))
+    parser.add_argument('--unite-function', default=None,
+                        help=('A python script file path or a content of '
+                              'python lambda expression which will be used '
+                              'for classifing dataset. '
+                              '`data` is available in lambda expression. '
+                              'If it is not spcified, a filename character '
+                              'before "." (colon) will be used to classify.'))
     parser.add_argument('--unite-basecolumn', default=None, type=int,
-                        help=('A column number which will be used to regulate '
-                              'data regions for automatical unite. '
-                              'See `--auto` option also.'))
+                        help=('An index of columns which will be used as base '
+                              'column for regulating data point region. '
+                              'See `--unite` option also.'))
+    parser.add_argument('--classify', default=None, action='store_true',
+                        help=('Classify dataset with `--classify-function`. '
+                              'It will influence the results of `--relative` '
+                              'and `--baseline`.'))
+    parser.add_argument('--classify-function', default=None,
+                        help=('A python script file path or a content of '
+                              'python lambda expression which will be used '
+                              'for classifing dataset. '
+                              '`data` is available in lambda expression.'
+                              'If it is not specified, a filename character '
+                              'before the last "_" (underbar) will be used '
+                              'to classify.'))
     parser.add_argument('-u', '--using', default=None, action=ParseUsingAction,
-                        help=('A colon separated column number of the raw text '
+                        help=('A colon separated column index of the raw text '
                               'data which will be used to determine X and Y '
                               'columns.'))
     parser.add_argument('--relative', default=None, action='store_true',
@@ -76,7 +95,7 @@ def parse_args(args=None):
     parser.add_argument('--baseline', default=None, 
                         help=('If it is specified, the specified data file '
                               'is used as a baseline of the dataset. '
-                              'See `--baseline-column` and '
+                              'See `--baseline-basecolumn` and '
                               '`--baseline-function` also.'))
     parser.add_argument('--baseline-column', default=None, type=int,
                         help=('A column number which will be proceeded for '
@@ -84,11 +103,11 @@ def parse_args(args=None):
                               'It is used with `--baseline` option.'))
     parser.add_argument('--baseline-function',
                         default=None,
-                        help=('A python code of a "lambda" function which is '
-                              'used to determine the baseline value from the '
-                              'data. '
+                        help=('A python script file path or a content of '
+                              'python lambda expression which will be used to '
+                              'determine the baseline value from the data. '
                               '`columns` and `column` variables are '
-                              'available in the code.'))
+                              'available in the lambda expression.'))
     parser.add_argument('infiles', nargs='+',
                         help=('Path list of data files or directories which '
                               'have data files. '))

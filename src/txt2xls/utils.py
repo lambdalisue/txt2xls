@@ -6,7 +6,7 @@ import numpy as np
 import maidenhair.statistics
 
 
-def find_peaks(dataset, basecolumn=-1, method=''):
+def find_peakset(dataset, basecolumn=-1, method=''):
     peakset = []
     for data in dataset:
         # find index
