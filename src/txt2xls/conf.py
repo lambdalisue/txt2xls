@@ -61,7 +61,7 @@ def get_user_config_filename(appname):
 def parse_conf(appname, args=None):
     # load confspec
     confspec = ConfigObj(
-            os.path.join(os.path.dirname(__file__), 'confspec.cfg'),
+            os.path.join(os.path.dirname(__file__), 'config.spec'),
             list_values=False,
             _inspec=True)
     # load config
@@ -93,9 +93,26 @@ def parse_conf(appname, args=None):
                 print
 
     if args:
-        for section in config:
-            for key in config[section]:
-                value = getattr(args, key, None)
-                if value is not None:
-                    config[section][key] = value
+        overwrite_conf_with_args(config, args)
     return config
+
+def overwrite_conf_with_args(conf, args):
+    def create_option_name(section):
+        if section.depth == 2:
+            return section.name
+        return "%s-%s" % (create_option_name(section.parent), section.name)
+
+    def walk_callback(section, key):
+        if section.depth > 1:
+            if key == 'enabled':
+                name = create_option_name(section)
+            else:
+                name = "%s-%s" % (create_option_name(section), key)
+        else:
+            name = key
+        new_value = getattr(args, name, None)
+        if new_value is not None:
+            section[key] = new_value
+
+    conf.walk(walk_callback, call_on_sections=False)
+    return conf

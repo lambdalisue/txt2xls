@@ -2,9 +2,12 @@
 # coding=utf-8
 import numpy as np
 from nose.tools import *
+from mock import MagicMock as Mock
 
-from txt2xls.readers.utils import unite_dataset
-from txt2xls.readers.utils import classify_dataset
+from txt2xls.reader.utils import unite_dataset
+from txt2xls.reader.utils import classify_dataset
+from txt2xls.function.builtin.unite_function import default_unite_function
+from txt2xls.function.builtin.classify_function import default_classify_function
 
 
 def create_test_dataset():
@@ -31,7 +34,7 @@ def test_unite_dataset_default():
     dataset = create_test_dataset()
     dataset = unite_dataset(dataset,
                             basecolumn=0,
-                            unite_fn=None)
+                            fn=default_unite_function)
 
     # return dataset should be an instance of list, tuple
     ok_(isinstance(dataset, (list, tuple)))
@@ -53,16 +56,25 @@ def test_unite_dataset_default():
         eq_(len(dataset[i][2][0]), 3)
 
 
+def test_unite_dataset_unite_fn_called():
+    mock_function = Mock(return_value='')
+    dataset = create_test_dataset()
+    dataset = unite_dataset(dataset,
+                            basecolumn=0,
+                            fn=mock_function)
+    ok_(mock_function.called)
+
+
 def test_classify_dataset_default():
     dataset = create_test_dataset()
     nameset = [x[0] for x in dataset]
     collection = classify_dataset(dataset,
-                                  classify_fn=None)
+                                  fn=default_classify_function)
 
     # return collection should be an instance of dictionary
     ok_(isinstance(collection, dict))
 
-    # default classify_fn will classify dataset with filename before last '_'
+    # default fn will classify dataset with filename before last '_'
     # character
     eq_(collection.keys(), [
         './test/dataset_type01.txt',
@@ -89,3 +101,11 @@ def test_classify_dataset_default():
         for i in range(0, 6):
             ok_(isinstance(dataset[i][1][0], (int, float, np.float64)))
             ok_(isinstance(dataset[i][2][0], (int, float, np.float64)))
+
+
+def test_classify_dataset_fn_called():
+    mock_function = Mock(return_value='')
+    dataset = create_test_dataset()
+    dataset = classify_dataset(dataset,
+                               fn=mock_function)
+    ok_(mock_function.called)

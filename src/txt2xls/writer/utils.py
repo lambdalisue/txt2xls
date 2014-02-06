@@ -20,6 +20,8 @@ def get_sheet_name(filename):
     Examples:
         >>> get_sheet_name('./foo/bar/hogehoge.piyo')
         'hogehoge'
+        >>> len(get_sheet_name("*"*100))
+        31
     """
     filename = os.path.basename(filename)
     filename = os.path.splitext(filename)[0]

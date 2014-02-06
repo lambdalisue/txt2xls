@@ -6,14 +6,25 @@ import numpy as np
 from xlwt import Formula
 from xlwt import Workbook
 from xlwt.Utils import rowcol_pair_to_cellrange
-from txt2xls.writers.utils import ensure_iterable
-from txt2xls.writers.utils import prefer_alphabet
-from txt2xls.writers.utils import get_sheet_name
+from txt2xls.writer.utils import ensure_iterable
+from txt2xls.writer.utils import prefer_alphabet
+from txt2xls.writer.utils import get_sheet_name
+from txt2xls.function import parse_function
 from txt2xls.utils import find_peakset
 
 
 class Writer(object):
-    def write(self, collection, filename):
+    def __init__(self, conf):
+        self.default_filename = conf['default_filename']
+
+        def config_peakset(conf):
+            self.peakset_method = conf['method']
+            self.peakset_basecolumn = conf['basecolumn']
+            self.peakset_where_function = parse_function(conf['where_function'])
+        config_peakset(conf['peakset'])
+
+    def write(self, collection, filename=None, fail_silently=False):
+        # create new book
         book = Workbook()
 
         # write dataset
@@ -29,12 +40,15 @@ class Writer(object):
                 # Note: +1 for heading line
                 sheet.write(offsets[0]+1, 0, get_sheet_name(name))
                 # write peakset
-                self._write_peakset(dataset, offsets, sheet)
+                self._write_peakset(dataset, offsets, sheet,
+                                    self.peakset_basecolumn,
+                                    self.peakset_method,
+                                    self.peakset_where_function)
                 # update offsets
                 offsets[0] += len(dataset) + 1
 
         # save
-        book.save(filename)
+        book.save(filename or self.default_filename)
 
 
     def _write_axis_header(self, a, axis, offsets, sheet):
@@ -123,7 +137,10 @@ class Writer(object):
             # write axes
             self._write_axes(data[1:], [0, 0], sheet)
 
-    def _write_peakset(self, dataset, offsets, sheet):
+    def _write_peakset(self, dataset, offsets, sheet,
+                       peakset_basecolumn,
+                       peakset_method,
+                       peakset_where_function):
         """
         Write peakset of the dataset
 
@@ -143,7 +160,8 @@ class Writer(object):
             sheet.write(offsets[0]+r+1, offsets[1], name)
         # write peakset
         peakset = find_peakset(dataset,
-                               basecolumn=-1,
-                               method='argmax')
+                               basecolumn=peakset_basecolumn,
+                               method=peakset_method,
+                               where=peakset_where_function)
         self._write_axes(peakset, [offsets[0], offsets[1]+1], sheet)
 
