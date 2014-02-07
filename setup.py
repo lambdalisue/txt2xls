@@ -1,4 +1,5 @@
 # coding=utf-8
+import os
 import sys
 from setuptools import setup, find_packages
 
@@ -21,6 +22,10 @@ extras = {}
 if sys.version_info >= (3,):
     extras['use_2to3'] = True
 
+# add --old-and-unmanageable option for installing man
+if 'install' in sys.argv:
+    sys.argv.append('--old-and-unmanageable')
+
 setup(
     name = NAME,
     version = VERSION,
@@ -42,7 +47,7 @@ setup(
     license = 'MIT',
     packages = find_packages('src'),
     package_dir = {'': 'src'},
-    data_files = [('man/man1', ['txt2xls.1'])],
+    data_files = [(os.path.join('share', 'man', 'man1'), ['txt2xls.1'])],
     include_package_data = True,
     package_data = {
         '': ['LICENSE', 'README.rst',
