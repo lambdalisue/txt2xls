@@ -3,7 +3,7 @@ configobj
 ordereddict
 natsort
 xlwt
-maidenhair>=0.2.2
+maidenhair>=0.3.0
 app_version
 sphinx
 sphinxcontrib-napoleon

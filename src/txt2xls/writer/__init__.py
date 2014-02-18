@@ -6,11 +6,11 @@ import numpy as np
 from xlwt import Formula
 from xlwt import Workbook
 from xlwt.Utils import rowcol_pair_to_cellrange
+from maidenhair.utils.peakset import find_peakset
 from txt2xls.writer.utils import ensure_iterable
 from txt2xls.writer.utils import prefer_alphabet
 from txt2xls.writer.utils import get_sheet_name
 from txt2xls.function import parse_function
-from txt2xls.utils import find_peakset
 
 
 class Writer(object):

@@ -6,8 +6,8 @@ import maidenhair
 from maidenhair.utils.plugins import registry
 from maidenhair.filters.relative import relative
 from maidenhair.filters.baseline import baseline
-from txt2xls.reader.utils import unite_dataset
-from txt2xls.reader.utils import classify_dataset
+from maidenhair.classification.unite import unite_dataset
+from maidenhair.classification.classify import classify_dataset
 from txt2xls.function import parse_function
 
 
