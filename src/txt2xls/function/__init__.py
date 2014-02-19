@@ -26,6 +26,8 @@ def parse_function(function, default_type='lambda'):
     Raises:
         AttributeError: Raise when unknown function type has been specified.
     """
+    if function is None:
+        return None
     if ":" not in function:
         function = "%s:%s" % (default_type, function)
     name, body = function.split(":", 1)

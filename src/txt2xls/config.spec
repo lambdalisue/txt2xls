@@ -31,4 +31,4 @@ default_filename = string(default='output.xls')
     [[peakset]]
     method = string(default='argmax')
     basecolumn = integer(default=-1)
-    where_function = string(default='builtin:where_function')
+    where_function = string(default=None)
