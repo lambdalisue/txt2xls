@@ -159,6 +159,9 @@ class Writer(object):
             # Note: +1 for heading line
             sheet.write(offsets[0]+r+1, offsets[1], name)
         # write peakset
+        # Note: dataset which passed to the maidenhair find_peakset
+        #       should not contain filename column so remove it.
+        dataset = [data[1:] for data in dataset]
         peakset = find_peakset(dataset,
                                basecolumn=peakset_basecolumn,
                                method=peakset_method,
