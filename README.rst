@@ -8,15 +8,15 @@ txt2xls
     :target: https://coveralls.io/r/lambdalisue/txt2xls/
     :alt: Coverage
 
-.. image:: https://pypip.in/d/txt2xls/badge.png
+.. image:: https://img.shields.io/pypi/dm/txt2xls.svg
     :target: https://pypi.python.org/pypi/txt2xls/
     :alt: Downloads
 
-.. image:: https://pypip.in/v/txt2xls/badge.png
+.. image:: https://img.shields.io/pypi/v/txt2xls.svg
     :target: https://pypi.python.org/pypi/txt2xls/
     :alt: Latest version
 
-.. image:: https://pypip.in/wheel/txt2xls/badge.png
+.. image:: https://img.shields.io/pypi/wheel/txt2xls.svg
     :target: https://pypi.python.org/pypi/txt2xls/
     :alt: Wheel Status
 
@@ -24,7 +24,7 @@ txt2xls
     :target: https://pypi.python.org/pypi/txt2xls/
     :alt: Egg Status
 
-.. image:: https://pypip.in/license/txt2xls/badge.png
+.. image:: https://img.shields.io/pypi/l/txt2xls.svg
     :target: https://pypi.python.org/pypi/txt2xls/
     :alt: License
 
